@@ -1,0 +1,995 @@
+---
+author: "Owen Hoare"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: cerulean
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 6
+    fig_width: 12
+    fig_height: 8
+    fig_caption: true
+    code_folding: hide
+  pdf_document: default
+---
+
+---
+title: `r paste("Measles and Toca Virus Evaluation - Bulk RNA_seq",  sep ="<BR>")`
+---
+
+
+### Run informations {.tabset .tabset-fade}
+
+#### Run
+<center>
+```{r runInfo_run}
+library( pander)
+pander( c( 'Date'     = as.character( Sys.Date()),
+           'Experiment'   = EXPERIMENT_NAME));
+```
+</center>
+
+#### Parameters
+```{r runInfo_params}
+listParams = as.list( paramsEnv);
+pander(listParams[order(names(listParams))]); # Show params in alphabetical order
+```
+
+</center>
+
+#### R
+```{r runInfo_r}
+pander( sessionInfo());
+```
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::read_chunk(path = file.path( WORKING_DIR, "DEGSeq2.R"))
+```
+
+```{r eval=T, error=TRUE, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Load_libraries>>
+```
+
+[//]: # "Load the data"
+```{r dataLoadpreProcess, fig.dim = c(15,10), echo=FALSE, message=FALSE, warning=FALSE}
+<<loadData>>
+```
+<br /><br />
+
+
+
+### CIBERSORTx Analysis and Visualization SingleR {.tabset .tabset-fade}
+Let's take a look at CIBERSORTx deconvolution on our mouse PNOC bulk RNA-seq data using 
+our scRNA-seq as our reference to do the cell type classification. This was run in 
+relative cell fraction mode.
+```{r CIBERSORTx, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<CIBERSORTx_PCA>>
+```
+<br />
+
+#### Basic Heatmap Matrix SingleR
+CIBERSORTx Heatmap SingleR
+```{r CIBERSORTx_heatmap,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_Heatmap>>
+```
+<br />
+
+#### Heatmap with correlation SingleR
+CIBERSORTx Correlation Heatmap SingleR
+```{r CIBERSORTx_correlation_heatmap,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_Correlation_Heatmap>>
+```
+<br />
+
+#### Dotplot with correlation and p-values SingleR
+CIBERSORTx Correlation dotplots with pvalues SingleR
+```{r CIBERSORTx_correlation_heatmap_pvalues,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_Correlation_Heatmap_pvalues>>
+```
+<br />
+
+#### CIBERSORTx cell fraction summary SingleR
+CIBERSORTx cell fraction results SingleR
+```{r CIBERSORTx_cell_fraction_Result,  message=FALSE, fig.dim = c(30,20), warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_cell_fraction_results>>
+```
+<br />
+
+#### CIBERSORTx cell fraction summary barplot SingleR
+CIBERSORTx cell fraction barplot SingleR
+```{r CIBERSORTx_cell_fraction_barplots,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis', fig.dim = c(15,10)}
+<<CIBERSORTx_cell_fraction_barplot>>
+```
+<br />
+
+#### CIBERSORTx cell fraction boxplots SingleR
+CIBERSORTx cell fraction boxplots SingleR
+```{r CIBERSORTx_cell_fraction_boxplots,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis', fig.dim = c(20,10)}
+<<CIBERSORTx_cell_fraction_boxplot>>
+```
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+
+### CIBERSORTx Analysis and Visualization Virus {.tabset .tabset-fade}
+Now let's do the same thing but for the viral cell fraction.
+```{r CIBERSORTx2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<CIBERSORTx_PCA2>>
+```
+<br />
+
+#### Basic Heatmap Matrix Virus
+CIBERSORTx Heatmap Virus
+```{r CIBERSORTx_heatmap2,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_Heatmap2>>
+```
+<br />
+
+#### Heatmap with correlation Virus
+CIBERSORTx Correlation Heatmap Virus  
+```{r CIBERSORTx_correlation_heatmap2,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_Correlation_Heatmap2>>
+```
+<br />
+
+#### Dotplot with correlation and p-values Virus
+CIBERSORTx Correlation dotplots with pvalues Virus
+```{r CIBERSORTx_correlation_heatmap_pvalues2,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_Correlation_Heatmap_pvalues2>>
+```
+<br />
+
+#### CIBERSORTx cell fraction summary Virus
+CIBERSORTx cell fraction results Virus
+```{r CIBERSORTx_cell_fraction_Result_Virus,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<CIBERSORTx_cell_fraction_results2>>
+```
+<br />
+
+#### CIBERSORTx cell fraction summary barplot Virus
+CIBERSORTx cell fraction barplot Virus
+```{r CIBERSORTx_cell_fraction_barplots2,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis', fig.dim = c(15,10)}
+<<CIBERSORTx_cell_fraction_barplot2>>
+```
+<br />
+
+#### CIBERSORTx cell fraction boxplots Virus
+CIBERSORTx cell fraction boxplots Virus
+```{r CIBERSORTx_cell_fraction_boxplots2,  message=FALSE, warning=FALSE, autodep=T, include=T, results='asis', fig.dim = c(15,10)}
+<<CIBERSORTx_cell_fraction_boxplot2>>
+```
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+
+```{r  Prepare_Data, eval=T, error=TRUE, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<PrepareData>>
+```
+
+### Measles Control vs Measles Virus Post Treatment {.tabset .tabset-fade}
+Let's perform differential expression tests for each contrast using DESeq2
+
+```{r Differential_Expression, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Run_DESeq2>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(CvMT,                        
+                                        class = "compact",
+                                        filter="top",
+                                        rownames = FALSE,
+                                        colnames = c("gene", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj"),
+                                        extensions = c('Buttons'),
+                                        options = list(
+                                          pageLength = 15,
+                                          dom = 'Bfrtip',
+                                          buttons = c('excel','csv','pdf','copy')
+           ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables}
+<<Print_Tables>>
+```
+
+
+#### Measles Control vs Heat Inactivated MV
+
+
+```{r Differential_Expression1, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Contrast1>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop1, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(CvMHI,                        
+                                        class = "compact",
+                                        filter="top",
+                                        rownames = FALSE,
+                                        colnames = c("gene", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj", "significant"),
+                                        extensions = c('Buttons'),
+                                        options = list(
+                                          pageLength = 15,
+                                          dom = 'Bfrtip',
+                                          buttons = c('excel','csv','pdf','copy')
+           ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables1}
+<<Print_Tables1>>
+```
+
+#### Measles Control vs Mid treatment MV
+
+
+```{r Differential_Expression2, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Contrast2>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop2, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(CvM_MT,                        
+                                        class = "compact",
+                                        filter="top",
+                                        rownames = FALSE,
+                                        colnames = c("gene", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj", "significant"),
+                                        extensions = c('Buttons'),
+                                        options = list(
+                                          pageLength = 15,
+                                          dom = 'Bfrtip',
+                                          buttons = c('excel','csv','pdf','copy')
+           ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables2}
+<<Print_Tables2>>
+```
+
+
+
+#### Toca Control vs Post treatment Toca
+
+
+```{r Differential_Expression3, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Contrast3>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop3, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(CvPTT,                        
+                                        class = "compact",
+                                        filter="top",
+                                        rownames = FALSE,
+                                        colnames = c("gene", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj", "significant"),
+                                        extensions = c('Buttons'),
+                                        options = list(
+                                          pageLength = 15,
+                                          dom = 'Bfrtip',
+                                          buttons = c('excel','csv','pdf','copy')
+           ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables3}
+<<Print_Tables3>>
+```
+
+
+#### Toca Control vs Heat Inactivated Toca
+
+
+```{r Differential_Expression4, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Contrast4>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop4, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(CvHIT,                        
+                                        class = "compact",
+                                        filter="top",
+                                        rownames = FALSE,
+                                        colnames = c("gene", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj", "significant"),
+                                        extensions = c('Buttons'),
+                                        options = list(
+                                          pageLength = 15,
+                                          dom = 'Bfrtip',
+                                          buttons = c('excel','csv','pdf','copy')
+           ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables4}
+<<Print_Tables4>>
+```
+
+
+#### Toca Control vs Mid treatment Toca
+
+
+```{r Differential_Expression5, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Contrast5>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop5, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(CvMTT,                        
+                                        class = "compact",
+                                        filter="top",
+                                        rownames = FALSE,
+                                        colnames = c("gene", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj", "significant"),
+                                        extensions = c('Buttons'),
+                                        options = list(
+                                          pageLength = 15,
+                                          dom = 'Bfrtip',
+                                          buttons = c('excel','csv','pdf','copy')
+           ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables5}
+<<Print_Tables5>>
+```
+
+
+Ending the tabset section
+### {.toc-ignore}
+
+<br /><br /><br /><br />
+
+### DEGSeq2 Analysis and Visualization MV {.tabset .tabset-fade}
+Let's take a look at some differential gene expression analysis using the DESeq2 package
+and I will set it using the likelihood ration option to compare all 8 contrasts.
+Then I will interrogate the biology that underpins these genes.
+```{r DEGSeq2_Analysis_Run, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<DEGSeq2_Analysis>>
+```
+<br />
+
+
+#### Dispersion Plots
+Dispersion Plot
+```{r Dispersion_Plot, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<DispersionPlot>>
+```
+<br />
+
+#### MA Plots Control vs MV Post Treatment  
+MAPlots Control vs MV Post Treatment  
+```{r MA_Plots, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<MAPlots>>
+```
+<br />
+
+#### MA Plots Control vs MV Post Treatment Significant Genes
+MA Plots Control vs MV Post Treatment Most Significant Genes
+```{r MAPlots_Significant_Gene, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<MAPlots_Significant_Genes>>
+```
+<br />
+
+#### Volcano Plots Control vs MV Post Treatment Significant Genes
+Volcano Plots Control vs MV Post Treatment Most Significant Genes
+```{r Volcano_Plot,  message=FALSE, fig.dim = c(25,20), warning=FALSE, autodep=T, include=T, results='asis'}
+<<VolcanoPlot>>
+```
+<br />
+
+#### Count Plot for Top Marker Gene
+Volcano Plots Control vs MV Post Treatment Most Significant Genes
+```{r PlotCounts,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<PlotCounts>>
+```
+<br />
+
+#### Heatmap Control vs MV Post Treatment Most Significant Genes
+Heatmap Control vs MV Post Treatment Top Genes (2FC padj < 0.05)
+```{r Heatmap_Top_Genes,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<HeatmapTopGenes>>
+```
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+### GSEA and Pathway Analysis MV {.tabset .tabset-fade}
+Here I will examine the pathways associated with the differentially expressed genes comparing the
+control measles virus samples vs post treatment (20 days after infection) with measles virus.
+```{r GO_Pathway_Enrichment_MV, fig.dim = c(15,10), warning=FALSE, message=FALSE, echo=FALSE, results='asis'}
+<<GO_Pathway_Analysis_MV>>
+```
+<br />
+
+#### Enrichment Plots Control vs MV Post Treatment  
+Enrichment Plot MV
+```{r E_MapPlot_MV, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<EMapPlot_MV>>
+```
+<br />
+
+#### cMap Plots Control vs MV Post Treatment 
+cMap Plot Control vs MV Post Treatment 
+```{r c_MapPlot_MV, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<cMapPlot_MV>>
+```
+<br />
+
+#### RidgePlot Control vs MV Post Treatment
+Ridge Plot Control vs MV Post Treatment
+```{r RidglePlotMV, fig.dim = c(15,15), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<RidglePlot_MV>>
+```
+<br />
+
+#### GSEA TopPathway MV
+GSEA Top Pathway MV
+```{r GSEATopPathway_MV,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<GSEA_TopPathway_MV>>
+```
+<br />
+
+#### Total Publised Papers on this Pathway
+Total Publised Papers on this Pathway Since 2010
+```{r Published_Papers, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Published_Articles_MV>>
+```
+<br />
+
+
+```{r KEGGPaths, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_Pathways>>
+```
+<br />
+
+#### KEGG TopPathway MV
+KEGG Top Pathway MV
+```{r KEGG_Pathways_MV,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_TopPathway_MV>>
+```
+<br />
+
+#### KEGG Pathway Enrichment Control vs MV Post Treatment
+KEGG Pathways Enriched Control vs MV Post Treatment
+```{r KEGG_Paths_Enrichment, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_Pathway_Enrichment>>
+```
+<br />
+
+
+#### cNet KEGG Pathway Enrichment
+cNet KEGG Pathway Enrichments
+```{r cnet_Pathway_Enrich,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<cnet_KEGG_Pathway_Enrichment>>
+```
+<br />
+
+#### RidglePlots KEGG Pathway Enrichment
+RidglePlots Pathway KEGG Enrichments
+```{r cnet_KEGG_Pathway_Enrich,  message=FALSE, fig.dim = c(15,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<RidgePlot_KEGG_Pathway_Enrichment>>
+```
+<br />
+
+#### Top KEGG Pathway Enrichment
+Top KEGG Pathway Enriched
+```{r Top_KEGG_Pathway_Enriched,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<Top_KEGG_Pathway_Enrichment>>
+```
+<br />
+
+#### Full Measles KEGG Pathway
+Measles KEGG Pathway
+```{r Measles_KEGG_Pathways,  message=FALSE, fig.dim = c(20,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<Measles_KEGG_Pathway>>
+knitr::include_graphics("/media/owen/Backup Plus/UCSF_Project/02_PROCESSED_DATA/PNOC/ANALYSIS/Bulk_RNA/01_Input_Data/Mouse/mmu05162.pathview.png")
+```
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+
+### DEGSeq2 Analysis and Visualization Toca {.tabset .tabset-fade}
+Now I will pull out the differentially expressed genes associated with control vs Toca virus post treatment.
+The same logic applies as in my previous analysis. 
+```{r DEGSeq2_Analysis_Toca_2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<DEGSeq2_Analysis_Toca2>>
+```
+
+#### MA Plots Control vs Toca Post Treatment  
+MAPlots Control vs Toca Post Treatment  
+```{r MA_Plots2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<MAPlots2>>
+```
+<br />
+
+#### MA Plots Control vs Toca Post Treatment Significant Genes
+MA Plots Control vs Toca Post Treatment Most Significant Genes
+```{r MAPlots_Significant_Gene2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<MAPlots_Significant_Genes2>>
+```
+<br />
+
+#### Volcano Plots Control vs MV Post Treatment Significant Genes
+Volcano Plots Control vs Toca Post Treatment Most Significant Genes
+```{r Volcano_Plot2,  message=FALSE, fig.dim = c(25,20), warning=FALSE, autodep=T, include=T, results='asis'}
+<<VolcanoPlot2>>
+```
+<br />
+
+#### Count Plot for Top Marker Gene
+Volcano Plots Control vs Toca Post Treatment Most Significant Genes
+```{r PlotCounts2,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<PlotCounts2>>
+```
+<br />
+
+#### Heatmap Control vs Toca Post Treatment Most Significant Genes
+Heatmap Control vs Toca Post Treatment Top Genes (2FC padj < 0.05)
+```{r Heatmap_Top_Genes2,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<HeatmapTopGenes2>>
+```
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+### GSEA and Pathway Analysis Toca {.tabset .tabset-fade}
+```{r GO_Pathway_Enrichment_MV2, fig.dim = c(15,10), warning=FALSE, message=FALSE, echo=FALSE, results='asis'}
+<<GO_Pathway_Analysis_MV2>>
+```
+<br />
+
+#### Enrichment Plots Control vs Toca Post Treatment  
+Enrichment Plot Toca
+```{r E_MapPlot_MV2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<EMapPlot_MV2>>
+```
+<br />
+
+#### cMap Plots Control vs Toca Post Treatment 
+cMap Plot Control vs MV Post Treatment 
+```{r c_MapPlot_MV2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<cMapPlot_MV2>>
+```
+<br />
+
+#### RidgePlot Control vs Toca Post Treatment
+Ridge Plot Control vs MV Post Treatment
+```{r RidglePlotMV2, fig.dim = c(15,15), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<RidglePlot_MV2>>
+```
+<br />
+
+#### GSEA TopPathway Toca
+GSEA Top Pathway Toca
+```{r GSEATopPathway_MV2,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<GSEA_TopPathway_MV2>>
+```
+<br />
+
+#### Total Publised Papers on this Pathway
+Total Published Papers on this Pathway Since 2010
+```{r Published_Papers2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Published_Articles_MV2>>
+```
+<br />
+
+
+```{r KEGGPaths2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_Pathways2>>
+```
+<br />
+
+#### KEGG TopPathway Toca
+KEGG Top Pathway Toca
+```{r KEGG_Pathways_MV2,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_TopPathway_MV2>>
+```
+<br />
+
+#### KEGG Pathway Enrichment Control vs Toca Post Treatment
+KEGG Pathways Enriched Control vs Toca Post Treatment
+```{r KEGG_Paths_Enrichment2, fig.dim = c(15,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_Pathway_Enrichment2>>
+```
+<br />
+
+
+#### cNet KEGG Pathway Enrichment Toca
+cNet KEGG Pathway Enrichments Toca
+```{r cnet_Pathway_Enrich2,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<cnet_KEGG_Pathway_Enrichment2>>
+```
+<br />
+
+#### RidglePlots KEGG Pathway Enrichment Toca
+RidglePlots Pathway KEGG Enrichments Toca
+```{r cnet_KEGG_Pathway_Enrich2,  message=FALSE, fig.dim = c(15,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<RidgePlot_KEGG_Pathway_Enrichment2>>
+```
+<br />
+
+#### Top KEGG Pathway Enrichment Toca
+Top KEGG Pathway Enriched Toca
+```{r Top_KEGG_Pathway_Enriched2,  message=FALSE, fig.dim = c(15,10), warning=FALSE, autodep=T, include=T, results='asis'}
+<<Top_KEGG_Pathway_Enrichment2>>
+```
+<br />
+
+#### Full Herpes Simplex Virus KEGG Pathway
+Measles KEGG Pathway
+```{r Measles_KEGG_Pathways2,  message=FALSE, fig.dim = c(20,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<Measles_KEGG_Pathway2>>
+knitr::include_graphics("/media/owen/Backup Plus/UCSF_Project/02_PROCESSED_DATA/PNOC/ANALYSIS/Bulk_RNA/01_Input_Data/Mouse/mmu05168.pathview.png")
+```
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+
+### Survival Analysis of Mouse Infected with Measles Virus {.tabset .tabset-fade}
+Here I will assess if injecting the mouse with measles or Toca virus has any survival benefit.
+I will compare 2 groups with 6 contrasts. The first survival curve will look at measles virus
+with control vs heat inactivated virus and subsequently 20 days post treatment. The same comparisons will 
+be done for the Toca visus to see which virus works best and promoted prolonged survival. 
+```{r SurvivalCurve_MV, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Survival_Analysis_MV_Infected_Virus>>
+```
+
+<br />
+
+#### Forest Plot of Mouse Infected with MV Virus
+Now I will make a forest plot to summarize my results and see if tumor weight is also a factor
+in driving poor prognosis. The results indicate that post viral treatment is an independent prognostic factor.
+```{r SurvivalForestMV, fig.dim = c(18,6), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<ForestPlot_MV_Infected_Virus>>
+```
+
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+### Survival Analysis of Mouse Infected with Toca Virus {.tabset .tabset-fade}
+Now let's do the same analysis but only look at the effected of treating the mice with Toca virus.
+```{r SurvivalCurve_Toca, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Survival_Analysis_Toca_Infected_Virus>>
+```
+
+<br />
+
+####  Forest Plot of Mouse Infected with Toca Virus
+Again I will make a forest plot to summarize my results and see if tumor weight is also a factor
+in driving poor prognosis. The results indicate the post viral treatment is an independent prognostic factor.
+```{r SurvivalForestToca, fig.dim = c(18,6), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<ForestPlot_Toca_Infected_Virus>>
+```
+
+<br />
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+### Volcano3D Plots Measels Virus Re-examining differential expression {.tabset .tabset-fade}
+The Volcano3D plots adds an extra dimension to our analysis. Here I can perform a differential gene expression analysis using
+the same DEGSeq2 package. However, here I can make 3 contrast together. That is control, heat inactivated virus and post treatment.
+I will do one set for measeles virus alone and seperately for Toca virus. Here I will exclude mid-treatment as this is the least informative group
+given I already did this in my previous analysis. Volcano3D will allow us to pick on some new genes potentially missed by using DESeq2 alone. 
+```{r Volcano3DMV, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV>>
+```
+
+<br />
+
+#### Volcano3D MV Plots 
+```{r Volcano3D_MV_DEGPlots, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV_DEGPlot>>
+```
+
+<br />
+
+#### Volcano3D MV Radial Plots 
+```{r Volcano3D_MV_DEGP_RadialPlots, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV_DEGP_RadialPlot>>
+```
+
+<br />
+
+#### Volcano3D MV Boxplots Top Genes
+```{r Volcano3D_MV_Boxplot, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV_Boxplots>>
+```
+
+<br />
+
+#### Volcano2D MV Top DEG Plots 
+```{r Volcano2D_MV_DEGPlot, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano2D_MV_DEGPlots>>
+```
+
+<br />
+
+#### Volcano3D MV GO Pathways 
+```{r Volcano2D_MV_GOPathway, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano2D_MV_GOPathways>>
+```
+
+<br />
+
+#### Volcano3D MV Enrichment Plots
+```{r Volcano2D_MV_GO_Enrichments, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano2D_MV_GO_Enrichment>>
+```
+<br />
+
+#### Volcano3D DEG Measles Virus
+Let's perform differential expression tests for each contrast using DESeq2
+
+```{r MeaslesDEGVolcano3D1, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<MeaslesDEGVolcano3D>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop6, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(measles,
+                                              class = "compact",
+                                              filter="top",
+                                              rownames = FALSE,
+                                              colnames = c("gene", "Control_MV", "Mid_treatment_MV", "Post_treatment_MV", "x", "y", "r", "angle", "z", "pvalue", "col", "col", "significant"),
+                                              extensions = c('Buttons'),
+                                              options = list(
+                                                pageLength = 15,
+                                                dom = 'Bfrtip',
+                                                buttons = c('excel','csv','pdf','copy')
+                                              ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables6}
+<<Print_TablesMV>>
+```
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+### Volcano3D Plots Toca Virus Re-examining differential expression {.tabset .tabset-fade}
+Now I will do the same but this time for Toca virus. Aagin I will use 3 contrasts 
+control, heat inactivated and post treatment to make the comparison. Once again I will investigate the 
+biology of these different genes and pathways. 
+```{r Volcano3DMV2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV2>>
+```
+
+<br />
+
+#### Volcano3D Toca Plots 
+```{r Volcano3D_MV_DEGPlots2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV_DEGPlot2>>
+```
+
+<br />
+
+#### Volcano3D Toca Radial Plots 
+```{r Volcano3D_MV_DEGP_RadialPlots2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV_DEGP_RadialPlot2>>
+```
+
+<br />
+
+#### Volcano3D Toca Boxplots Top Genes
+```{r Volcano3D_MV_Boxplot2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano3D_MV_Boxplots2>>
+```
+
+<br />
+
+#### Volcano2D Toca Top DEG Plots 
+```{r Volcano2D_MV_DEGPlot2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano2D_MV_DEGPlots2>>
+```
+
+<br />
+
+#### Volcano3D Toca GO Pathways 
+```{r Volcano2D_MV_GOPathway2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano2D_MV_GOPathways2>>
+```
+
+<br />
+
+#### Volcano3D Toca Enrichment Plots
+```{r Volcano2D_MV_GO_Enrichments2, fig.dim = c(15,10), echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Volcano2D_MV_GO_Enrichment2>>
+```
+<br />
+
+#### Volcano3D DEG Toca Virus
+Let's perform differential expression tests for each contrast using DESeq2
+
+```{r MeaslesDEGVolcano3D2, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<TocaDEGVolcano3D>>
+cat('\n', '<br>', '\n\n')
+```
+
+
+```{r EmptyDT_initialising_datatable_in_for_loop7, message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+datatable(Toca,
+                                              class = "compact",
+                                              filter="top",
+                                              rownames = FALSE,
+                                              colnames = c("gene", "Control_Toca", "Mid_treatment_Toca", "Post_treatment_Toca", "x", "y", "r", "angle", "z", "pvalue", "col", "col", "significant"),
+                                              extensions = c('Buttons'),
+                                              options = list(
+                                                pageLength = 15,
+                                                dom = 'Bfrtip',
+                                                buttons = c('excel','csv','pdf','copy')
+                                              ))
+
+# this empty datatable is necessary to allow the printing of datatables in the loop (next chunk)
+```
+
+
+```{r MarkerGenes_datatables7}
+<<Print_TablesToca>>
+```
+
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+
+### Interrogating Reasons For Low Viral Uptake {.tabset .tabset-fade}
+Here I will look at specific markers of phagocytosis to see if the immune system
+is responsible for clearing the virus before it had a chance to infect the cells. If so this may 
+hinder the immune response and may help explain the reason for such a low detection rate of the virus.
+To test the correlation between cell type fraction from CIBERSORTx and gene expression I will use a 
+spearman ranked correlation.
+
+```{r LowViralUptake, echo=FALSE, optipng='-o7', message=FALSE, warning=FALSE}
+<<Interrogating_low_viral_uptake>>
+```
+<br />
+
+#### Correlation Plots of Phagocyte Markers
+Correlation Plots of Phagocytes Genes
+```{r Interrogating_phagocyte_markers_correlation1, fig.dim = c(25,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Interrogating_phagocyte_markers_correlation>>
+```
+<br />
+
+#### Boxplots of Phagocyte Markers
+Boxplots of Phagocyte Genes
+```{r Interrogating_phagocyte_markers_boxplots1, fig.dim = c(15,15), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Interrogating_phagocyte_markers_boxplots>>
+```
+<br />
+
+#### Correlation Plots of Immunoglobulin and Apoptotic Markers
+Correlation Plots of Immunoglobulin and Apoptotic Genes
+```{r Interrogating_immunoglobulin_apoptotic_markers_correlation1, fig.dim = c(25,10), message=FALSE, warning=FALSE, autodep=T, include=T, results='asis'}
+<<Interrogating_immunoglobulin_apoptotic_markers_correlation>>
+```
+<br />
+
+#### Boxplots of Immunoglobulin and Apoptotic Markers
+Boxplots of Immunoglobulin and Apoptotic Genes
+```{r Interrogating_immunoglobulin_apoptotic_markers_boxplots,  message=FALSE, fig.dim = c(15,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<Interrogating_immunoglobulin_apoptotic_markers_boxplots>>
+```
+<br />
+
+#### Full Phagocytosis KEGG Pathway
+Phagocytosis KEGG Pathway using DEG from MV control and MV post-treatment
+```{r KEGG_Pathway_Phagocytosis1,  message=FALSE, fig.dim = c(20,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_Pathway_Phagocytosis>>
+knitr::include_graphics("/media/owen/Backup Plus/UCSF_Project/02_PROCESSED_DATA/PNOC/ANALYSIS/Bulk_RNA/01_Input_Data/Mouse/mmu04666.pathview.png")
+```
+<br />
+
+#### Full Apoptosis KEGG Pathway
+Apoptosis KEGG Pathway using DEG from MV control and MV post-treatment
+```{r KEGG_Pathway_Apoptosis1,  message=FALSE, fig.dim = c(20,15), warning=FALSE, autodep=T, include=T, results='asis'}
+<<KEGG_Pathway_Apoptosis>>
+knitr::include_graphics("/media/owen/Backup Plus/UCSF_Project/02_PROCESSED_DATA/PNOC/ANALYSIS/Bulk_RNA/01_Input_Data/Mouse/mmu04210.pathview.png")
+```
+<br />
+
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
+
+<!-- Ending the tabset section -->
+### {.toc-ignore} 
+<br /><br /> 
